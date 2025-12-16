@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Moving to DrillCost</title>
+    <meta name="description" content="Cost Per Meter is becoming DrillCost. We are moving to a new home." />
+    <!-- Preconnect to CDN for faster load -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            margin: 0;
+            /* Allow vertical scrolling if content overflows (e.g. landscape mobile), 
+               but prevent horizontal scroll */
+            overflow-x: hidden; 
+            min-height: 100vh;
+            /* Use dynamic viewport height for better mobile browser support */
+            min-height: 100dvh; 
+            color: white;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Animations */
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4); /* Slate-800 with higher transparency */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Safari support */
+            border: 1px solid rgba(148, 163, 184, 0.1); /* Subtle border */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="relative w-full selection:bg-blue-500 selection:text-white">
+
+    <!-- Background Canvas - Fixed so it doesn't move when scrolling -->
+    <canvas id="bg-canvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Main Content Wrapper -->
+    <!-- Used min-h-[100dvh] to center vertically, but allows expansion for scrolling -->
+    <div class="relative z-10 w-full min-h-[100dvh] flex items-center justify-center p-4 sm:p-6 py-10">
+        
+        <!-- Glass Card -->
+        <div class="w-full max-w-2xl glass-panel rounded-3xl flex flex-col items-center text-center animate-fade-in-up p-6 sm:p-10 md:p-14">
+            
+            <!-- Animated Badge -->
+            <div class="mb-8 inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1.5 backdrop-blur-md shadow-lg shadow-blue-900/20">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span class="text-xs font-bold text-blue-200 tracking-widest uppercase">Migration in progress</span>
+            </div>
+
+            <!-- Headlines -->
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+                We are <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Evolving</span>
+            </h1>
+            
+            <div class="h-px w-24 bg-gradient-to-r from-transparent via-slate-500 to-transparent my-6 opacity-50"></div>
+
+            <h2 class="text-lg sm:text-xl md:text-2xl font-light text-slate-300 mb-8 max-w-lg mx-auto">
+                <span class="font-semibold text-white">Cost Per Meter</span> is becoming <span class="font-semibold text-white">DrillCost</span>
+            </h2>
+
+            <!-- Improved Statement -->
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl mb-10 mx-auto">
+                From Son Pham: We have moved to a new home to expand our web app's capabilities. 
+                <span class="font-medium text-white">DrillCost</span> now supports <strong>all measurement units</strong>—not just meters—providing a more versatile experience for everyone.
+            </p>
+
+            <!-- CTA Button -->
+            <a id="new-link-btn" href="#" class="group relative inline-flex items-center justify-center px-8 py-4 w-full sm:w-auto text-base font-bold text-white transition-all duration-300 bg-blue-600 rounded-full hover:bg-blue-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(37,99,235,0.4)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-slate-900">
+                <span>Join us at DrillCost</span>
+                <!-- Arrow Right Icon -->
+                <svg class="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <div class="absolute inset-0 rounded-full ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-300"></div>
+            </a>
+
+            <!-- Auto Redirect Timer -->
+            <div id="redirect-container" class="mt-8 flex items-center justify-center space-x-3 text-sm font-medium text-slate-500">
+                <div id="redirect-active" class="flex items-center justify-center flex-wrap gap-2">
+                    <div class="flex items-center gap-2">
+                         <!-- Loader Icon -->
+                        <svg class="h-4 w-4 animate-spin text-blue-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+                        <span>Redirecting in <span id="timer" class="text-blue-400 tabular-nums">8</span> seconds...</span>
+                    </div>
+                    <button id="cancel-btn" class="text-slate-400 hover:text-white underline decoration-slate-600/50 underline-offset-4 hover:decoration-blue-400 transition-all ml-1">
+                        Cancel
+                    </button>
+                </div>
+                <div id="redirect-cancelled" class="hidden text-slate-400 bg-slate-800/50 px-3 py-1 rounded-lg border border-slate-700">
+                    Auto-redirect cancelled
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="absolute bottom-4 left-0 right-0 text-center text-slate-600 text-[10px] sm:text-xs tracking-[0.2em] uppercase opacity-40 pointer-events-none">
+            Engineering Excellence • Precision Tools
+        </div>
+    </div>
+
+    <script>
+        // --- Constants ---
+        const NEW_URL = "https://son-n-pham.github.io/drillcost/";
+        const REDIRECT_DELAY_SEC = 8;
+        
+        // --- Setup Link ---
+        document.getElementById('new-link-btn').href = NEW_URL;
+
+        // --- Redirect Logic ---
+        let timeLeft = REDIRECT_DELAY_SEC;
+        let isRedirecting = true;
+        const timerElement = document.getElementById('timer');
+        const redirectActiveDiv = document.getElementById('redirect-active');
+        const redirectCancelledDiv = document.getElementById('redirect-cancelled');
+        const cancelBtn = document.getElementById('cancel-btn');
+
+        const countdownInterval = setInterval(() => {
+            if (!isRedirecting) return;
+            
+            timeLeft -= 1;
+            timerElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = NEW_URL;
+            }
+        }, 1000);
+
+        cancelBtn.addEventListener('click', () => {
+            isRedirecting = false;
+            clearInterval(countdownInterval);
+            redirectActiveDiv.classList.add('hidden');
+            redirectCancelledDiv.classList.remove('hidden');
+            redirectCancelledDiv.style.display = 'block'; 
+        });
+
+        // --- Particle Animation Logic ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        let animationFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function initParticles() {
+            particles = [];
+            // Optimize particle count for screen width
+            const density = window.innerWidth < 768 ? 15 : 10;
+            const particleCount = Math.min(window.innerWidth / density, 80);
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.3, // Slower movement for more elegance
+                    vy: (Math.random() - 0.5) * 0.3,
+                    size: Math.random() * 2 + 0.5,
+                    alpha: Math.random() * 0.5 + 0.1,
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Connection Distance based on screen size
+            const connectionDistance = window.innerWidth < 768 ? 100 : 150;
+
+            // Draw connections
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.1 * (1 - distance / connectionDistance)})`;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Update and draw particles
+            particles.forEach((p) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off edges
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(56, 189, 248, ${p.alpha})`; // Sky-400
+                ctx.fill();
+            });
+
+            animationFrameId = requestAnimationFrame(draw);
+        }
+
+        // Initialize
+        window.addEventListener('resize', () => {
+             resizeCanvas();
+        });
+        resizeCanvas();
+        draw();
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
